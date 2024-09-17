@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Pokedex</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/pokecss.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo">Pokedéx
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </header>
+    <div class ="pokemon-container">
+        <h2>Pokedéx Completa de Pokemons!</h2>
+        <div id="pokemon-list"></div>
+            <div id="pokemon-modal" class="modal">
+                <div class="modal-content">
+                    <span id="close-modal" class="close">&times;</span>
+                    <h2 id="pokemon-name"></h2>
+                    <img id="pokemon-image" src="" alt="">
+                    <p id="pokemon-stats"></p>
+            </div>
+    </div>
+
+        <script src="scripts/pokejs.js" async defer></script>
+    </body>
+</html>
