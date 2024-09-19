@@ -1,9 +1,12 @@
+const allPokemons = [];
+
 async function fetchAllPokemon() {
   try {
     const response = await fetch(
       "https://pokeapi.co/api/v2/pokemon?limit=200"
     );
     const data = await response.json();
+    allPokemons.push(data.results);
     for (const pokemon of data.results) {
       await fetchPokemonDetails(pokemon.url);
     }
@@ -32,9 +35,9 @@ function displayPokemon(pokemon) {
         <h3>${pokemon.id}. ${pokemon.name.toUpperCase()}</h3>
         <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
         <p>ID: ${pokemon.id}</p>
-        <p style=" color: white; -webkit-text-stroke-width: 0.5px; -webkit-text-stroke-color: black; margin-bottom: 2px; border-radius: 5px; background-color: ${getTypeColor(pokemon.types[0].type.name)}"> ${pokemon.types[0].type.name}</p>`;
+        <p style=" font-size:20px; color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black; margin-bottom: 2px; border-radius: 5px; background-color: ${getTypeColor(pokemon.types[0].type.name)}"> ${pokemon.types[0].type.name}</p>`;
         if(pokemon.types.length > 1){
-            pokemonCard.innerHTML+= `<p style=" color: white; -webkit-text-stroke-width: 0.5px; -webkit-text-stroke-color: black; border-radius: 5px; background-color: ${getTypeColor(pokemon.types[1].type.name)}"> ${pokemon.types[1].type.name}</p>`;
+            pokemonCard.innerHTML+= `<p style=" font-size:20px; color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black; border-radius: 5px; background-color: ${getTypeColor(pokemon.types[1].type.name)}"> ${pokemon.types[1].type.name}</p>`;
         }
         pokemonCard.onclick = function(){
             showPokemonDetails(pokemon);
@@ -65,7 +68,6 @@ document.getElementById('close-modal').onclick = function() {
 }
 
 function getTypeColor(tipoPokemon){
-    console.log(tipoPokemon)
     switch(tipoPokemon){
         case 'normal':
             return 'gray';
@@ -103,12 +105,33 @@ function getTypeColor(tipoPokemon){
             return 'silver';
         case 'fairy':
             return 'lightpink';
-        case (null):
-            return 'white';
         default:
             return 'white';
     }
 }
+
+async function searchPokemon() {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const filteredPokemon = [];
+    clearPokemonList();
+    for (let i = 0; i < allPokemons[0].length; i++) {
+        const pokemon = allPokemons[0][i];
+        if (pokemon.name.toLowerCase().includes(searchTerm)) {
+          await fetchPokemonDetails(pokemon.url)
+        }
+    }
+}
+
+function clearPokemonList() {
+    const pokemonList = document.getElementById('pokemon-list');
+    pokemonList.innerHTML = '';
+}
+
+document.getElementById('search-bar').addEventListener('input', function() {
+    searchPokemon();
+})
+
 window.onload = function () {
   fetchAllPokemon();
 }
+
